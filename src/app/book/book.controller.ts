@@ -11,11 +11,11 @@ import {
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
-import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { Roles } from 'src/decorators/roles/roles.decorator';
 
 @Controller('book')
-@UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 

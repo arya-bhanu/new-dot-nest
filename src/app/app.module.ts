@@ -6,12 +6,12 @@ import { AuthorModule } from './author/author.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UtilsModule } from 'src/utils/utils.module';
-import { RolesModule } from 'src/roles/roles.module';
+import { AuthGuardModule } from 'src/guard/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     TypeOrmModule.forRoot({
       type: (process.env.DB_TYPE as any) || 'mysql',
       host: process.env.DB_HOST,
@@ -26,9 +26,10 @@ import { ConfigModule } from '@nestjs/config';
     BookModule,
     AuthorModule,
     AuthModule,
-    RolesModule,
+    AuthGuardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [TypeOrmModule, ConfigModule],
 })
 export class AppModule {}

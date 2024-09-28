@@ -3,10 +3,10 @@ import { BookService } from './book.service';
 import { BookController } from './book.controller';
 import { Book } from './entities/book.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RolesModule } from 'src/roles/roles.module';
+import { AuthGuardModule } from 'src/guard/auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Book]), RolesModule],
+  imports: [TypeOrmModule.forFeature([Book]), AuthGuardModule],
   controllers: [BookController],
   providers: [BookService],
   exports: [TypeOrmModule],

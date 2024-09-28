@@ -5,12 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Roles } from './roles.decorator';
-import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import { Roles } from 'src/decorators/roles/roles.decorator';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private readonly jwtService: JwtService,
