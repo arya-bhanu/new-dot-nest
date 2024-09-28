@@ -1,4 +1,4 @@
-import { Author } from 'src/author/entities/author.entity';
+import { Author } from 'src/app/author/entities/author.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

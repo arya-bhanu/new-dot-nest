@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UtilsService } from 'src/utils/utils.service';
-import { AuthorService } from 'src/author/author.service';
-import { Author } from 'src/author/entities/author.entity';
+import { Author } from '../author/entities/author.entity';
+import { AuthorService } from '../author/author.service';
 
 @Controller('auth')
 export class AuthController {

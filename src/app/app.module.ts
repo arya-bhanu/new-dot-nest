@@ -5,8 +5,8 @@ import { BookModule } from './book/book.module';
 import { AuthorModule } from './author/author.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { UtilsModule } from './utils/utils.module';
-import { RolesModule } from './roles/roles.module';
+import { UtilsModule } from 'src/utils/utils.module';
+import { RolesModule } from 'src/roles/roles.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
