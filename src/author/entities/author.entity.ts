@@ -6,11 +6,14 @@ export class Author {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ nullable: false })
+  username: string;
 
-  @Column()
+  @Column({ nullable: false })
   gender: string;
+
+  @Column({ nullable: false })
+  password: string;
 
   @OneToMany(() => Book, (book) => book.author)
   books: Book[];

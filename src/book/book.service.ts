@@ -9,8 +9,8 @@ export class BookService {
     @InjectRepository(Book)
     private readonly booksRepository: Repository<Book>,
   ) {}
-  create(payload: Book) {
-    return this.booksRepository.create(payload);
+  create(payload: Omit<Book, 'id'>) {
+    return this.booksRepository.save(payload);
   }
 
   async findAll(): Promise<Book[]> {
@@ -22,7 +22,7 @@ export class BookService {
   }
 
   update(id: number, payload: Omit<Book, 'id'>) {
-    return this.booksRepository.save({ id, payload });
+    return this.booksRepository.update({ id }, payload);
   }
 
   delete(id: number) {

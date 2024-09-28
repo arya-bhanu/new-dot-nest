@@ -10,11 +10,15 @@ export class AuthorService {
     private authorsRepository: Repository<Author>,
   ) {}
 
-  async findOne(id: number): Promise<Author> {
+  async create(payload: Omit<Author, 'id' | 'books'>): Promise<Author> {
+    return this.authorsRepository.save(payload);
+  }
+
+  async findOneById(id: number) {
     return this.authorsRepository.findOneBy({ id });
   }
 
-  async create(payload: Author): Promise<Author> {
-    return this.authorsRepository.create(payload);
+  async findOneByUsername(username: string) {
+    return this.authorsRepository.findOneBy({ username });
   }
 }

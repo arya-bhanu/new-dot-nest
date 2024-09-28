@@ -13,7 +13,7 @@ export class AuthorController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authorService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.authorService.findOneById(id);
   }
 }

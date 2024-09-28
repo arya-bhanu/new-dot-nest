@@ -3,20 +3,30 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  UseGuards,
+  Put,
+  Request,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
+import { Roles } from 'src/roles/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @Controller('book')
+@UseGuards(RolesGuard)
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
-  create(@Body() createBookDto: Book) {
-    return this.bookService.create(createBookDto);
+  @Roles(['author'])
+  create(
+    @Body() createBookDto: Omit<Book, 'id' | 'author'>,
+    @Request() req: any,
+  ) {
+    const user = req.user;
+    return this.bookService.create({ author: user.id, ...createBookDto });
   }
 
   @Get()
@@ -29,12 +39,16 @@ export class BookController {
     return this.bookService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: number, @Body() updateBookDto: Book) {
+  @Put(':id')
+  @Roles(['author'])
+  update(@Param('id') id: number, @Body() updateBookDto: Omit<Book, 'id'>) {
+    console.log(id);
+    console.log(updateBookDto);
     return this.bookService.update(id, updateBookDto);
   }
 
   @Delete(':id')
+  @Roles(['author'])
   remove(@Param('id') id: number) {
     return this.bookService.delete(id);
   }
