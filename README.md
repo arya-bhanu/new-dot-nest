@@ -1,3 +1,13 @@
+## Design Pattern (Pattern Project)
+Pattern project dapat memiliki beberapa bentuk bergantung dengan kompleksitas dari aplikasi yang akan dikembangkan. 
+Salah satu pattern yang terkenal adalah SOLID principle yang menitikberatkan pada aplikasi dengan paradigma object-oriented. Namun, penggunaan prinsip SOLID pada aplikasi sederhana justru dapat menambah abstraksi dari kode tersebut dan menimbulkan kompleksitas kode berlebih yang tidak sesuai dengan fitur aplikasi tersebut. Hal itu biasa disebut dengan istilah "Premature Optimization" oleh DonaldKnuth 
+
+Pada proyek ini, aplikasi utama terletak pada folder /src. Di dalam folder tersebut, terdapat folder /app yang akan menampung modul utama aplikasi. Semua modul yang memiliki routing atau model entitas didalamnya akan disimpan pada folder /app tersebut. Folder lainnya yang sejajar dengan /app seperti /decorators, /filter, /guard, dan /utils adalah folder yang menyimpan berbagai fungsionalitas dan bersifat global sehingga dapat digunakan pada modul utama aplikasi yang terletak pada folder /app. 
+
+Seluruh folder yang sifatnya adalah utilitas atau menyediakan fungsi tertentu untuk digunakan oleh modul aplikasi menggunakan prinsip Separation of Concerns, yang mana tiap fungsi tersebut saling dipecah menjadi beberapa jenis sehingga dapat digunakan secara universal oleh modul lainnya. 
+Sedangkan seluruh folder dan file pada /app menggunakan prinsip Single Responsibility Principle, dimana setiap modul hanya menangani satu tanggung jawab saja dan tidak terikat dengan  modul lainnya (Reduced Coupling)
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
