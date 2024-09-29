@@ -3,6 +3,7 @@ import {
   Controller,
   HttpException,
   HttpStatus,
+  InternalServerErrorException,
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -22,8 +23,7 @@ export class AuthController {
   async registerUser(
     @Body() { password, username, gender }: Author,
   ): Promise<Author> {
-    const user = await this.authorService.findOneByUsername(username);
-    if (!user) {
+    try {
       const hashedPassword = await this.utilsService.hashPassword(password);
       const userCreated = await this.authorService.create({
         password: hashedPassword,
@@ -31,8 +31,9 @@ export class AuthController {
         gender,
       });
       return userCreated;
+    } catch (err) {
+      throw new InternalServerErrorException(err);
     }
-    throw new HttpException('Current user is registered', HttpStatus.FORBIDDEN);
   }
 
   @Post('login')

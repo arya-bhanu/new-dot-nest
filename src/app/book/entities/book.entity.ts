@@ -6,10 +6,10 @@ export class Book {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false, unique: true })
   title: string;
 
-  @Column()
+  @Column({ nullable: false })
   description: string;
 
   @ManyToOne(() => Author, (author) => author.books)
