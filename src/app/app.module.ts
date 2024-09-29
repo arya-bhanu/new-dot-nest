@@ -7,11 +7,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UtilsModule } from 'src/utils/utils.module';
 import { AuthGuardModule } from 'src/guard/auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+      }),
+      inject: [ConfigService],
+      global: true,
+    }),
     TypeOrmModule.forRoot({
       type: (process.env.DB_TYPE as any) || 'mysql',
       host: process.env.DB_HOST,
@@ -30,6 +39,6 @@ import { ConfigModule } from '@nestjs/config';
   ],
   controllers: [AppController],
   providers: [AppService],
-  exports: [TypeOrmModule, ConfigModule],
+  exports: [TypeOrmModule],
 })
 export class AppModule {}
