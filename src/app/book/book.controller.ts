@@ -8,6 +8,8 @@ import {
   UseGuards,
   Put,
   Request,
+  NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
@@ -21,12 +23,19 @@ export class BookController {
 
   @Post()
   @Roles(['author'])
-  create(
+  async create(
     @Body() createBookDto: Omit<Book, 'id' | 'author'>,
     @Request() req: any,
   ) {
-    const user = req.user;
-    return this.bookService.create({ author: user.id, ...createBookDto });
+    try {
+      const user = req.user;
+      return await this.bookService.create({
+        author: user.id,
+        ...createBookDto,
+      });
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   @Get()
@@ -35,21 +44,40 @@ export class BookController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    const book = await this.bookService.findOne(id);
+    if (book) {
+      return book;
+    }
+    return new NotFoundException('book not found');
   }
 
   @Put(':id')
   @Roles(['author'])
-  update(@Param('id') id: number, @Body() updateBookDto: Omit<Book, 'id'>) {
-    console.log(id);
-    console.log(updateBookDto);
-    return this.bookService.update(id, updateBookDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateBookDto: Omit<Book, 'id'>,
+  ) {
+    const updated = await this.bookService.update(id, updateBookDto);
+    if (updated.affected === 0)
+      throw new NotFoundException('Data not found, no rows are affected');
+    return {
+      message: 'Data is updated',
+      error: null,
+      statusCode: 200,
+    };
   }
 
   @Delete(':id')
   @Roles(['author'])
-  remove(@Param('id') id: number) {
-    return this.bookService.delete(id);
+  async remove(@Param('id') id: number) {
+    const deleted = await this.bookService.delete(id);
+    if (deleted.affected === 0)
+      throw new NotFoundException('Data not found, no rows are affected');
+    return {
+      message: 'Data is deleted',
+      error: null,
+      statusCode: 200,
+    };
   }
 }
