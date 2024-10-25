@@ -4,7 +4,7 @@ import { AuthorModule } from './modules/author.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth.module';
 import { UtilsModule } from 'src/utils/utils.module';
-import { AuthGuardModule } from 'src/guard/auth/auth.module';
+import { AuthGuardModule } from 'src/common/guard/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
