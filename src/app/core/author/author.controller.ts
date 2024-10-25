@@ -1,7 +1,14 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { AuthorService } from './author.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { AuthorService } from '../../services/author.service';
 
-import { Author } from './entities/author.entity';
+import { Author } from '../../entities/author.entity';
 
 @Controller('author')
 export class AuthorController {
@@ -13,7 +20,7 @@ export class AuthorController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.authorService.findOneById(id);
   }
 }

@@ -6,10 +6,11 @@ import {
   InternalServerErrorException,
   Post,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../services/auth.service';
 import { UtilsService } from 'src/utils/utils.service';
-import { Author } from '../author/entities/author.entity';
-import { AuthorService } from '../author/author.service';
+import { Author } from '../../entities/author.entity';
+import { AuthorService } from '../../services/author.service';
+import { RegisterUserDto } from './auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +22,7 @@ export class AuthController {
 
   @Post('register')
   async registerUser(
-    @Body() { password, username, gender }: Author,
+    @Body() { password, username, gender }: RegisterUserDto,
   ): Promise<Author> {
     try {
       const hashedPassword = await this.utilsService.hashPassword(password);
